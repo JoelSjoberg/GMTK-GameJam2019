@@ -22,8 +22,7 @@ public class PlayerShoot : MonoBehaviour
         {
 
             dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-
-            print(dir);
+            if (dir.normalized.magnitude < 1) print(dir);
             ball.shoot(dir, transform.position + bulletOffset);
         }
     }
