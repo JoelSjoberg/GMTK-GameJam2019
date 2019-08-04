@@ -11,7 +11,6 @@ public class shakeOnImpact : MonoBehaviour
     {
         pos = transform.position;
         StartCoroutine("shakeWithReturn"); 
-            
     }
 
     IEnumerator shakeWithReturn()

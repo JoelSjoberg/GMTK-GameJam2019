@@ -17,6 +17,7 @@ public class licourBox : MonoBehaviour
 
     public void takeDamage()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/booze");
         hp -= 1;
         cam.shakeDown();
         anim.SetTrigger("hit");
@@ -24,5 +25,15 @@ public class licourBox : MonoBehaviour
         {
             Destroy(this.gameObject, 1f);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "thief")
+        {
+            takeDamage();
+            other.GetComponent<AIBehaviour>().dissapear();
+        }
+        
     }
 }

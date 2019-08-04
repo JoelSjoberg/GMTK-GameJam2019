@@ -61,6 +61,7 @@ public class AIBehaviour : MonoBehaviour
     // called when hit by bullet
     public void kill()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/AI-damage");
         anim.SetTrigger("hit");
         dead = true;
         rb.velocity = Vector3.zero;
@@ -70,9 +71,10 @@ public class AIBehaviour : MonoBehaviour
     }
 
 
-    // Redundant, does the exact same thing as kill, but I am afraid of removing it...
+    // Redundant, does the exact same thing as kill, but I am afraid of removing it... but it plays a different sound!
     public void dissapear()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/AI-jippi");
         anim.SetTrigger("hit");
         dead = true;
         rb.velocity = Vector3.zero;

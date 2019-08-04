@@ -22,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
+            
             anim.SetTrigger("throw");
             dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             if (dir.normalized.magnitude < 1) print(dir);

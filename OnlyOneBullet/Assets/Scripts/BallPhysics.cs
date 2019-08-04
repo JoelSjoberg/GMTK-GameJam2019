@@ -37,6 +37,7 @@ public class BallPhysics : MonoBehaviour
     {
         if (!moving)
         {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/throw");
             transform.position = spawnPos;
             rb.isKinematic = false;
             rb.AddForce(dir.normalized * initial_velocity);
@@ -60,6 +61,7 @@ public class BallPhysics : MonoBehaviour
         sc.enabled = false;
         GameStatusManager.points += pointsAchieved;
 
+        if (GameStatusManager.points > GameStatusManager.highscore) GameStatusManager.highscore = GameStatusManager.points;
         // Increase game "speed", ugly hardcoding here, but it will have to do in the interrest of time.
         GameStatusManager.spawnRate -= 0.2f;
         if (GameStatusManager.spawnRate <= 1.5) GameStatusManager.spawnRate = 1.5f;
@@ -87,6 +89,7 @@ public class BallPhysics : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         anim.SetTrigger("hit");
+        
         if (collision.transform.tag == "Player")
         {
             stop();
@@ -95,9 +98,24 @@ public class BallPhysics : MonoBehaviour
         // The thief AI should have a kill function which disarms it
         if (collision.transform.tag == "thief")
         {
+            
             pointsAchieved += 100;
-            collision.transform.SendMessage("kill"); 
+            collision.transform.GetComponent<AIBehaviour>().kill();
+            //collision.transform.SendMessage("kill"); 
         }
+
+        if (collision.transform.tag == "start")
+        {
+
+            collision.transform.GetComponent<StartNode>().kill();
+            //collision.transform.SendMessage("kill");
+        }
+
+        if (collision.transform.tag == "wall")
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Bounce");
+        }
+
         current_velocity += collision_increment;
 
         collision.transform.SendMessage("shake");

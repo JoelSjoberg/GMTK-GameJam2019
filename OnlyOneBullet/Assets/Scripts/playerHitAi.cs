@@ -23,6 +23,9 @@ public class playerHitAi : MonoBehaviour
         {
             anim.SetTrigger("hit");
             print("PlayerHitThief!");
+            collision.transform.GetComponent<shakeOnImpact>().shake();
+            collision.transform.GetComponent<AIBehaviour>().kill();
+
             collision.transform.SendMessage("shake");
             collision.transform.SendMessage("kill");
         } 
