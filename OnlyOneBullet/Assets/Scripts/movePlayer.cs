@@ -11,10 +11,12 @@ public class movePlayer : MonoBehaviour
 
     // In case a bot pushes the player aside, lock the z axis
     float initialZ;
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
         ch = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
         initialZ = transform.position.z;
     }
 
@@ -51,6 +53,8 @@ public class movePlayer : MonoBehaviour
     void getInput()
     {
         inputVec = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0).normalized * Time.deltaTime;
+        if (inputVec.magnitude > 0) anim.SetBool("idle", false);
+        else anim.SetBool("idle", true);
     }
 
     void decell()

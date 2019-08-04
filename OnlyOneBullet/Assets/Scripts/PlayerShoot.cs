@@ -7,11 +7,13 @@ public class PlayerShoot : MonoBehaviour
 
     BallPhysics ball;
 
+    Animator anim;
     [SerializeField] Vector3 bulletOffset;
     // Start is called before the first frame update
     private void Start()
     {
         if (ball == null) ball = FindObjectOfType<BallPhysics>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     Vector3 dir;
@@ -20,7 +22,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-
+            anim.SetTrigger("throw");
             dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             if (dir.normalized.magnitude < 1) print(dir);
             ball.shoot(dir, transform.position + bulletOffset);

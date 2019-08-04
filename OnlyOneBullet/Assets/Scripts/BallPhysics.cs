@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class BallPhysics : MonoBehaviour
 {
-
-    
     Rigidbody rb;
     [SerializeField] float max_velocity;
     [SerializeField] float initial_velocity;
     [SerializeField] float current_velocity;
 
     [SerializeField] float collision_increment = 0.01f;
-
+    [SerializeField] Transform player;
     MeshRenderer mr;
     SphereCollider sc;
-
+    Animator anim;
     public bool moving;
     int pointsAchieved;
     // Start is called before the first frame update
@@ -26,12 +24,12 @@ public class BallPhysics : MonoBehaviour
         mr = GetComponent<MeshRenderer>();
         sc = GetComponent<SphereCollider>();
 
+        player = FindObjectOfType<PlayerShoot>().transform;
 
+        anim = GetComponent<Animator>();
         // Makes sure the ball stays in place
         stop();
-
         pointsAchieved = 0;
-
     }
 
     // Launch ball from player position
@@ -47,6 +45,7 @@ public class BallPhysics : MonoBehaviour
             mr.enabled = true;
             sc.enabled = true;
             pointsAchieved = 0;
+            anim.SetTrigger("shoot");
         }
     }
 
@@ -71,12 +70,23 @@ public class BallPhysics : MonoBehaviour
         // If velocity increases
         if (current_velocity < rb.velocity.magnitude) current_velocity = rb.velocity.magnitude;
         // if it decreased however, retain the same speed!
+        else if (current_velocity > max_velocity)
+        {
+            current_velocity = max_velocity;
+            rb.velocity = rb.velocity.normalized * max_velocity;
+        }
         else rb.velocity = rb.velocity.normalized * current_velocity;
 
+        if (!moving)
+        {
+            transform.position = player.position;
+        }
+        transform.LookAt(rb.velocity + transform.position);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        anim.SetTrigger("hit");
         if (collision.transform.tag == "Player")
         {
             stop();
@@ -86,9 +96,7 @@ public class BallPhysics : MonoBehaviour
         if (collision.transform.tag == "thief")
         {
             pointsAchieved += 100;
-            collision.transform.SendMessage("kill");
-
-            
+            collision.transform.SendMessage("kill"); 
         }
         current_velocity += collision_increment;
 

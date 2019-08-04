@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class playerHitAi : MonoBehaviour
 {
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class playerHitAi : MonoBehaviour
     {
         if (collision.transform.tag == "thief")
         {
+            anim.SetTrigger("hit");
             print("PlayerHitThief!");
             collision.transform.SendMessage("shake");
             collision.transform.SendMessage("kill");

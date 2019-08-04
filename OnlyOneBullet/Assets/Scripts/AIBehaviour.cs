@@ -11,11 +11,14 @@ public class AIBehaviour : MonoBehaviour
     int currIndex;
     Rigidbody rb;
     bool dead;
+
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         na = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
         goalPos = getRandomGoal();
         dead = false;
     }
@@ -58,6 +61,7 @@ public class AIBehaviour : MonoBehaviour
     // called when hit by bullet
     public void kill()
     {
+        anim.SetTrigger("hit");
         dead = true;
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;
@@ -65,8 +69,11 @@ public class AIBehaviour : MonoBehaviour
         Destroy(this.gameObject, 1f);
     }
 
+
+    // Redundant, does the exact same thing as kill, but I am afraid of removing it...
     public void dissapear()
     {
+        anim.SetTrigger("hit");
         dead = true;
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;

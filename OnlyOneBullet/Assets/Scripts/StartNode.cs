@@ -20,7 +20,8 @@ public class StartNode : MonoBehaviour
 
     public void kill()
     {
-        Destroy(this.gameObject, 2f);
+        GameStatusManager.points = 0;
+        Destroy(this.gameObject, 0.5f);
         foreach (SpawnEnemy s in spawns) 
         {
             s.activated = true;
