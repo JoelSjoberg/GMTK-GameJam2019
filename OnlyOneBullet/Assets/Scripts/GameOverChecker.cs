@@ -19,7 +19,7 @@ public class GameOverChecker : MonoBehaviour
         if (countHp() <= 0)
         {
             // Play GameOver sound!
-            Invoke("loadEndScene", 1.5f);
+            Invoke("loadEndScene", 2f);
         }
     }
 

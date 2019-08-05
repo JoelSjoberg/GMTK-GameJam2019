@@ -26,7 +26,7 @@ public class licourBox : MonoBehaviour
             Destroy(this.gameObject, 1f);
         }
     }
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "thief")
@@ -34,6 +34,6 @@ public class licourBox : MonoBehaviour
             takeDamage();
             other.GetComponent<AIBehaviour>().dissapear();
         }
-        
     }
+    */
 }
